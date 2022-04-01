@@ -1,0 +1,6 @@
+<linker>
+  <!-- Preserve all Uku scripts on AOT platforms -->
+  <assembly fullname="uku.redux">
+    <namespace fullname="Uku" preserve="all"/>
+  </assembly>
+</linker>

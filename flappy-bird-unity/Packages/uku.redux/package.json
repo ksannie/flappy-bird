@@ -1,0 +1,16 @@
+{
+  "name": "uku.redux",
+  "version": "1.0.0",
+  "description": "Redux implementation in Unity3D",
+  "displayName": "Uku Redux",
+  "unity": "2021.2",
+  "author": {
+    "name": "voidtuxic",
+    "email": "penguzine@gmail.com",
+    "url": "https://github.com/voidtuxic"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "com.unity.mathematics": "1.2.1"
+  }
+}
