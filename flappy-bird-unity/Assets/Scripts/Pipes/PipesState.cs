@@ -27,11 +27,11 @@ namespace flappybird
 
 
         [NonSerialized] private float _pipeSpawnTimer = 2f;
-        [NonSerialized] bool _isRunning = false;
+        [NonSerialized] bool _areRunning = false;
         [NonSerialized] List<PipeData> _pipes = new List<PipeData>();
         [NonSerialized] List<PipeData> _newPipes = new List<PipeData>();
         [NonSerialized] List<PipeData> _removedPipes = new List<PipeData>();
-        [NonSerialized] int _pipeIndex = 0;
+        [NonSerialized] int _nextPipeIndex = 0;
 
 
 
@@ -50,18 +50,18 @@ namespace flappybird
         public Vector2 topColliderOffset => _topColliderOffset;
 
         public float pipeSpawnTimer => _pipeSpawnTimer;
-        public bool isRunning => _isRunning;
+        public bool isRunning => _areRunning;
         public List<PipeData> pipes => _pipes;
         public List<PipeData> newPipes => _newPipes;
         public List<PipeData> removedPipes => _removedPipes;
-        public int pipeIndex => _pipeIndex;
+        public int nextPipeIndex => _nextPipeIndex;
 
 
         public override IReducer CreateReducer() => new PipesReducer(this);
 
-        public void SetIsRunning(bool value)
+        public void SetAreRunning(bool value)
         {
-            _isRunning = value;
+            _areRunning = value;
         }
 
         public void SetPipeSpawnTimer(float value)
@@ -69,9 +69,9 @@ namespace flappybird
             _pipeSpawnTimer = value;
         }
 
-        public void SetIndexValue(int value)
+        public void SetNextPipeIndex(int value)
         {
-            _pipeIndex = value;
+            _nextPipeIndex = value;
         }
 
 

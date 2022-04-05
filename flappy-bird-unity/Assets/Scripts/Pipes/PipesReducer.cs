@@ -1,5 +1,5 @@
-using UnityEngine;
 using Uku.Redux;
+using UnityEngine;
 using System.Collections.Generic;
 
 namespace flappybird
@@ -28,7 +28,7 @@ namespace flappybird
             if (!state.isRunning)
             {
                 
-                state.SetIsRunning(true);
+                state.SetAreRunning(true);
                 state.SetChanged();
                 return true;
             }
@@ -37,7 +37,7 @@ namespace flappybird
 
         private bool ApplyPlayerLostAction()
         {
-            state.SetIsRunning(false);
+            state.SetAreRunning(false);
             RemoveAllPipes();
             state.SetChanged();
             return true;
@@ -45,15 +45,19 @@ namespace flappybird
 
         private bool ApplyPipesUpdateAction(PipesUpdateAction pipesUpdateAction)
         {
-            float deltaTime = pipesUpdateAction.payload;
-            state.SetPipeSpawnTimer(state.pipeSpawnTimer - deltaTime);
+            if (state.isRunning)
+            {
+                float deltaTime = pipesUpdateAction.payload;
+                state.SetPipeSpawnTimer(state.pipeSpawnTimer - deltaTime);
 
-            SpawnPipes();
-            MovePipes(state.pipes);
-            RemoveOutOfBoundsPipes(state.pipes);
+                SpawnPipes();
+                MovePipes();
+                RemoveOutOfBoundsPipes();
 
-            state.SetChanged();
-            return true;
+                state.SetChanged();
+                return true;
+            }
+            return false;
         }
 
         private void SpawnPipes()
@@ -66,7 +70,7 @@ namespace flappybird
             }
         }
 
-        private void MovePipes(List<PipeData> pipes)
+        private void MovePipes()
         {
             for (int i = 0; i < state.pipes.Count; i++)
             {
@@ -78,14 +82,16 @@ namespace flappybird
                     colliderOffset = state.pipes[i].colliderOffset,
                     index = state.pipes[i].index,
                 };
-                pipes[i] = pipe;
+                state.pipes[i] = pipe;
             }
             
         }
 
-        private void RemoveOutOfBoundsPipes(List<PipeData> pipes)
+        private void RemoveOutOfBoundsPipes()
         {
             state.removedPipes.Clear();
+            var pipes = state.pipes;
+
             for (int i = 0; i < pipes.Count; i++)
             {
                 if (pipes[i].position.x < state.boundXPosition)
@@ -102,7 +108,7 @@ namespace flappybird
             state.removedPipes.Clear();
             state.removedPipes.AddRange(state.pipes);
             state.pipes.Clear();
-            state.SetIndexValue(0);
+            state.SetNextPipeIndex(0);
         }
 
 
@@ -123,10 +129,10 @@ namespace flappybird
                 localScale = new Vector3(1f, isBottom ? height : -height, 1f),
                 colliderSize = isBottom ? state.bottomColliderSize : state.topColliderSize,
                 colliderOffset = isBottom ? state.bottomColliderOffset : state.topColliderOffset,
-                index = state.pipeIndex%state.maxNumberPipes,
+                index = state.nextPipeIndex%state.maxNumberPipes,
                 
             };
-            state.SetIndexValue(state.pipeIndex +1);
+            state.SetNextPipeIndex(state.nextPipeIndex +1);
             state.newPipes.Add(pipe);
             state.pipes.Add(pipe);
         }

@@ -51,11 +51,14 @@ namespace flappybird
 
         private bool ApplyTimerUpdateAction(TimerUpdateAction timerUpdateAction)
         {
-            float deltaTime = timerUpdateAction.payload;
-            state.SetTimer(state.timer + deltaTime);
-            state.SetChanged();
-            return true;
-
+            if (state.isRunning)
+            {
+                float deltaTime = timerUpdateAction.payload;
+                state.SetTimer(state.timer + deltaTime);
+                state.SetChanged();
+                return true;
+            }
+            return false;
         }
 
     }

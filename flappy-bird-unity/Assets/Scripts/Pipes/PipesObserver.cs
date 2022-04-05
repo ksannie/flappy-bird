@@ -67,5 +67,10 @@ namespace flappybird
                 pipesPool[index].gameObject.SetActive(false);
             }
         }
+
+        private void Update()
+        {
+            _store.Dispatch(new PipesUpdateAction { payload = Time.deltaTime });
+        }
     }
 }
