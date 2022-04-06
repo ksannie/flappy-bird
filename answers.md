@@ -5,16 +5,23 @@ Scriptable objects can be used in multiple ways here are some examples
 - Hold the configuration of a project
 - Hold references shared in the project (can avoid missing references when editing prefabs and two communicating entities dont have to hold each other references)
 - hold different data relative to the game itself
-- we can use it a a kind of singleton
+- we can use them as kind of singletons
+
+To be fair, I think there is always a way to work without scriptable objects, and that most of the time they are just a shortcut.
 
 How would you create a global state machine in Unity3D?
 -------
 
-Create a state machine means clearly define what are the state and what are the  conditions of transitions between those states.
+A state machine is simply a list of states and a list of transitions and a list of entry actions.
+a transition is defined by a source state, a destination state and and entry action.
+After this definition, it really depends on what you want to do with your state machine. I dont think a state machine can be applied for everything in the game, as that would be the game itself.
 
-Maybe I would create states as monobehaviours, with event that are triggered when entering and leaving the state
-A transition would be a payload with a bunch of informations with default values so that we could launch a state directly with a transition mockup.
-I think a statemachine should stay macro.
+You might want to implement a state machine for a game progression for instance. 
+I believe I would make the state machine a simple class, instantiated somewhere, and when an entry action is triggered (key found for instance), the state machine would read the entry action,the current state, the transitions and deduce the next state. 
+Depending on the state of the game, some elements of the game would interact differently.
+
+
+I might not be answering the question, as this is not a "global" statemachine, but I am not sure making a global statemachine is a good idea in the first place. It depends of the size of the project, but I would prefer to split it in statemachines with different goals. 
 
 Can you explain the Redux pattern to the best of your understanding?
 ------
